@@ -1,14 +1,36 @@
 = Milestone 2 - Creación, Distribución y Consumo de Reference Niche Wallets.
-Luis Molina <luis.molina@bitdubai.com> - Ezequiel Postan <ezequiel_postan@hotmail.com>
-v1.0, 2015-06-30
+:author: Luis Molina <luis.molina@bitdubai.com> - Ezequiel Postan <ezequiel_postan@hotmail.com>
+:version: v1.0
+:date: 2015-06-30
 
-= Introducción
+== Introducción
 
 En el milestone 1 desarrollamos nuestra primer Reference Niche Wallet. Este tipo de wallet como su nombre lo indica busca ser una referencia para que los desarrolladores de wallets puedan incorporar sus ideas de manera más simple que construyendo una wallet desde cero. +
 La Reference Nich Wallet es completamente funcional, sin embargo su objetivo es ser minimalista para que su código y estructura pueda ser fácilmente reutilizada por los desarrolladores. +
 Funcionalmente una reference wallet es idéntica a una nich wallet, pero conceptualmente se mantienen separadas en el sistema para poder distinguirlas fácilmente, en principio estas reference wallet son desarrolladas por bitDubai.
 
 Lo que necesitamos incorporar en este milestone son los mecanismos para permitir que los desarrolladores creen e incorporen sus wallets al sistema. +
+
+Ante este problema surge la pregunta de qué es una wallet con presisión.
+
+== Wallet
+
+Una wallet es una aplicación que puede enviar y/o recibir dinero. Si bien esta wallet usa sólo bitcoins tomamos el concepto de dinero también para fiat currencies entre otras cosas. +
+Este tipo de aplicación involucra una gran cantidad de módulos. Podemos distingur en principio dos grandes grupos:
+
+* Los módulos vinculados a lo que el usuario ve y usa para interactuar (front-end)
+* Los módulos vinculados a llevar concretamente a cabo las acciones a realizar (back-end) 
+
+Comencemos analizando los conceptos del front-end. +
+
+
+
+
+
+
+
+
+
 
 
 
