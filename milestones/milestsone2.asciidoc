@@ -1,1 +1,92 @@
-= Milestone 2
+= Milestone 2 - Creación, Distribución y Consumo de Reference Niche Wallets.
+Luis Molina <luis.molina@bitdubai.com> - Ezequiel Postan <ezequiel_postan@hotmail.com>
+v1.0, 2015-06-30
+
+= Introducción
+
+En el milestone 1 desarrollamos nuestra primer Reference Niche Wallet. Este tipo de wallet como su nombre lo indica busca ser una referencia para que los desarrolladores de wallets puedan incorporar sus ideas de manera más simple que construyendo una wallet desde cero. +
+La Reference Nich Wallet es completamente funcional, sin embargo su objetivo es ser minimalista para que su código y estructura pueda ser fácilmente reutilizada por los desarrolladores. +
+Funcionalmente una reference wallet es idéntica a una nich wallet, pero conceptualmente se mantienen separadas en el sistema para poder distinguirlas fácilmente, en principio estas reference wallet son desarrolladas por bitDubai.
+
+Lo que necesitamos incorporar en este milestone son los mecanismos para permitir que los desarrolladores creen e incorporen sus wallets al sistema. +
+
+
+
+3. Niche Wallets: Esta Reference Wallet sería luego forkeada por la red de “Niche Wallet Developers” para construir “Niche Wallets”.  En realidad lo que hacen es un fork de nuestro repo Fermat y dentro de el copian las clases de tipo Fragmento de la Reference Wallet y las ponen en un nuevo proyecto en el mismo repo pero esta vez en el layer Niche Wallet.
+
+4. Developers: En otras palabras de una Reference Niche Wallet saldrían multiples Niche Wallets hijas de ella, producidas por diferentes “Developers” registrados en el sistema como tal.
+
+5. Reference Niche Wallet Project: Para esto creamos un nuevo proyecto en la capa Reference Niche Wallet y programamos varios fragmentos. Este código vive por ahora en un fork de nuestro repo Fermat en la máquina (y en su propio repo github) en la que el Developer está desarrollando su Niche Wallet.
+
+6. Wallet Project Factory: Creamos un nuevo proyecto en la SUB APP Wallet Factory para esta nueva Reference Niche Wallet. 
+ 
+7. Developer PIP SUB APP: Esto lo hacemos logeados como Developer en la SUB APP Developer. Nosotros como bitDubai vamos a tener una identidad Developer como empresa/grupo, y otra individual cada uno como miembros de esa empresa/grupo. 
+
+8. Estructura de Navegación: En  la Wallet Factory definimos la estructura de Navegacion de la nueva Reference Niche Wallet utilizando los recursos disponibles para esto: menues laterales, menú principal, tabs u otros recursos asociados a la navegación a incorporar en el futuro.
+
+9. Recursos: La Wallet Factory SUB APP nos permite cargar todas las imágenes que vamos a necesitar, los layouts y otros recursos necesarios para nuestra nueva Reference Niche Wallet.
+
+10. Referencia a Fragmentos: Luego asociamos a las diferentes partes de la Wallet con los fragmentos programados.
+
+11. Wallet Runtime & Wallet Resources: Mientras uno crea la wallet en la SUB APP Wallet Factory, la estructura de navegación se va guardando en el plugin Wallet Runtime, y los recursos de la wallet en Wallet Resources. Eso permite que uno pueda testear la wallet corriendo en su propio teléfono como si la hubiera bajado del Wallet Store.
+
+12. Manejo de Versiones: Una vez finalizada cada nueva versión de la Reference Niche Wallet, exportamos el proyecto de Wallet Factory para que pueda ser abierto por el Wallet Publisher como una versión determinada de la Reference Niche Wallet. 
+
+13. Wallet Publisher: El Wallet Publisher permite crear un proyecto asociado a una Niche Wallet y entre otras cosas maneja el hecho de que puedan haber diferentes versiones.
+
+14. Pulbicación en Wallet Store: El Wallet Publisher permite también administrar que versiones se van subiendo a la wallet store y monitorear la cantidad de instalaciones de cada versión de la wallet en el sistema Fermat. Para subir una nueva version de la Reference Niche Wallet a la Wallet Store, se comunica con el Network Service DMP Wallet Store, que en el fondo es un nodo de la DAPP Wallet Store.
+
+15. Monitoreo de la Base de Usuarios: Para monitorear la cantidad de instalaciones utiliza el Network Service DMP Wallet Comunity, quien basicamente lleva el tracking de los Usuarios por Niche Wallet como una DAPP. 
+
+16. Distribución vía Wallet Store: La Wallet Store acepta la publicación de la nueva (versión) de la Reference Niche Wallet y hace el relay en el DMP Network Service Wallet Store, para que se expanda por la región donde este tipo de wallet tiene sentido existir.
+
+17. Wallet Store DAPP: La Wallet Store es dentro del sistema fermat una DAPP (Distributed Application). Es decir que es una aplicación formada por un número indeterminado de nodos que colaboran entre si para manejar la funcionalidad de la DAPP a nivel del sistema completo. 
+
+18. Hash de la Navegación y Recursos: La Wallet Store debe manejar además de la identidad de la Wallet y del Developer que la publica, el Hash de la información correspondiente a la estructura de navegación y por otro lado el hash correspondiente a los recursos que esa wallet utiliza.
+
+19. Validación de Hashes: Luego el Wallet Manager en el dispositivo del usuario que finalmente instala la nueva wallet, se encargará de validar que la estructura de navegación obtenida de algún peer, tenga el mismo hash. Lo mismo con los recursos.
+
+20. Catálogo Distribuído: En este caso, cada nodo de la Wallet Store  mantiene una parte del catálogo distribuído de wallets disponibles. Los nodos son sensibles a su localización y al rango de acción del  dispositivo donde vive. Usando esos dos inputs, solo guarda la parte del catálogo que es de interés para los usuarios de ese dispositivo. En otras palabras, las billeteras que tienen sentido en la región donde dicho dispositivo se mueve.
+
+Para pensar: 
+Cual es el criterio, exactamente que se evalúa para saber si una billetera es o no de interés para un cierto nodo? 
+
+Cuál es el criterio que un nodo usaría para difundir una billetera o para no hacerlo mas? Que criterio usaría? 
+
+Los nodos estarían conectados por proximidad? O por que criterio?
+
+21. Wallet Discovery: Un usuario de wallet cualquiera puede entonces através de la SUB APP Wallet Store corriendo en su dispositivo, encontrar la nueva Reference Niche Wallet publicada e instalarla.
+ 
+22. Target Version: La SUB APP Wallet Store tiene en cuenta para mostrar cada versión de una nueva wallet que la target version de dicha versión esté ya instalada en el dispositivo del usuario, simplemente no mostrando (por ahora) las wallets que apuntan a una versión superior. En algún momento deberíamos ver si podemos forzar una actualización para lograr que se pueda instalar una wallet muy nueva.
+
+23. Wallet Manager: La instalación la produce el Wallet Manager en el dispositivo de este usuario, el cual es responsible de unir todas las partes para que la nueva reference wallet esté disponible para ser usada.
+
+24. Localización de Recursos: Los fragmentos ya están instalados em el dispositivo, de manera que lo que falta son los recursos de la wallet. Para esto el Wallet Manager los obtiene a través del Network Service Wallet Resources. Entre los recursos de la wallet (imagenes, sonidos, layouts, etc) vienen también el archivo con la estructura de navegación. El Wallet Manager le inyecta la estructura al Wallet Runtime para que esté disponible a la hora que el usuario navegue a la nueva wallet dentro de la aplicación.
+
+
+Clonación, Distribución y Consumo de Niche Wallets.
+
+1. Niche Wallet Developers: Algún miembro de nuestra red de UI/UX designers a la cual llamamos “Niche Wallet Developers” toma una Reference Wallet y la clona, para reorganizar su código, y cambiar su diseño y experiencia de uso.
+
+2. Clonado de Fragmentos: Para esto toma el código de la Reference Niche Wallet y lo pone en un nuevo proyecto en la capa Niche Wallet.
+
+3. Pull Request: Este código luego, cuando el Developer finalice una nueva versión de su Niche Wallet se somete via Pull Request para ser mezclado en nuestro proyecto Fermat. Los cambios deben incluir solo el folder nuevo creado específicamente para esta nueva version de una Niche Wallet y serán aprobados por nosotros mismos antes de ser mezclados.
+
+4. Clonado de Reference Wallet: El Developer entra en la SUB APP Wallet Factory y crea un nuevo proyecto en base a clonar una Reference Niche Wallet.
+
+Pensar: Para mostrar las wallets a clonar... tienen que estar instaladas?
+
+5. Developers PIP SUB APP: Para hacer esto deben estar logeados como Developers en la SUB APP Developers. El hecho de estar logeados, los obliga a haber creado una identidad como Developer, la cual luego servirá para cuestiones asociadas a las micro licencias de uso y para poder dar soporte técnico a sus wallets. 
+
+6. License Structure: Al hacer un clon en la SUB APP Wallet Factory, el sistema reconoce la esctuctura de propiedad anterior, dandole el crédito que se merece al creador de la Reference Niche Wallet, lo cual se traduce en respetar su licencia de uso.
+
+7. Mismo Workflow: Con el proyecto de Wallet Factory creado, los pasos siguientes son los mismos a los descriptos anteriormente para el caso de la Reference Niche Wallet.
+
+
+
+
+
+
+
+
+
