@@ -1,6 +1,6 @@
-Desarrollo de Soporte Técnico.
+= Desarrollo de Soporte Técnico.
 
-Introducción.
+== Introducción
 
 El objetivo de desarrollar un componente de Soporte Técnico es proveer al sistema en general de una plataforma para que los Usuarios Finales puedan solicitar ayuda o acusar una situación problemática o inusual que se les haya presentado durante el uso de la aplicación.
 
@@ -10,36 +10,36 @@ Una vez encontrada la causa del inconveniente el responsable deberá solucionarl
 
 Por ultimo documentar el problema presentado y su solución para que esté disponible a otros actores a los cuales se le podría presentar el mismo inconveniente.
 
-Ciclo de Vida Caso Soporte Técnico.
+== Ciclo de Vida Caso Soporte Técnico
 
 Cuando al Usuario Final se le presente un inconveniente inesperado deberá recurrir a la aplicación de Soporte Técnico para solicitar asistencia. 
 
-Cuando el usuario recurre a dicha aplicación y solicita  la asistencia se inicia el Ciclo de Vida del caso Soporte Técnico. 
+Cuando el usuario recurre a dicha aplicación y solicita la asistencia se inicia el Ciclo de Vida del caso Soporte Técnico. 
 
 El Ciclo de vida del caso debe iniciarse, transcurrir y finalizar en el dispositivo donde vive el problema. 
 Durante el Ciclo de Vida de este caso es posible que intervengan muchos actores y componentes del sistema, y que el mismo se distribuya y circule por muchas capas hasta llegar al verdadero responsable y la causa del mismo.
 
 Durante la proceso de solución el  Ciclo de Vida se mantiene vivo y solo se termina cuando el Usuario Final notifica que el inconveniente fue solucionado.
 
-Actor Usuario Final.
+=== Actor Usuario Final
 
 Este actor representa la persona que hace uso del sistema, por ejemplo una Wallet en particular, y quien tendrá la capacidad de iniciar el caso de soporte, ya que todo el caso solo puede llevarse a cabo si existe una solicitud de parte del usuario para solucionar un inconveniente que se le ha presentado.
 Es también quien puede dar fin al caso de soporte.
 
-Actor Developer.
+=== Actor Developer
 
 Este actor representa la entidad encargada y responsable de un desarrollo o plugin que esté utilizando el Usuario Final y es el encargado de capturar la solicitud de soporte técnico y llevar a cabo dicho soporte y solucionar el mismo.
 
 Un Developer no solo puede ser necesariamente una persona física sino también una empresa u organización a cargo de un plugin, Wallet o desarrollo.
 
-Aplicación Technical Support.
+=== Aplicación Technical Support
 
 Esta es la aplicación que utilizará tanto el Usuario Final como el Developer para llevar a cabo el caso de soporte técnico. La misma será distribuida para lograr que exista interacción y comunicación entre otros dispositivos, capas, componentes y que también sea utilizada por otros actores involucrados en el caso. [Luis: esta no es la razón por lo cual es distribuída.]
 
 Si bien el proceso deberá llevarse a cabo dentro del dispositivo del usuario y finalizarse en el mismo, esta aplicación podrá extenderse mas allá para lograr llegar a una solución del caso.
 
 
-Inicio del Caso Soporte Técnico.
+== Inicio del Caso Soporte Técnico
 
 Como se mencionó anteriormente, todo este proceso se inicia al presentarse un problema o inconveniente al Usuario Final durante el uso de la aplicación o una Wallet en particular.  Los problemas pueden ser diversos, desde problemas de interfaz gráfica hasta problemas de funcionalidad o cualquier otro caso que pueda presentarse y afecte directamente al Usuario Final. 
 
@@ -51,14 +51,14 @@ La aplicación permitirá captar todos los inconvenientes enviados por los difer
 
 También, como se planteo antes, iniciar una interacción y conexión con el Usuario Final para profundizar en el problema y, a través de la misma, iniciar el Caso de Soporte del lado de la plataforma del sistema. [Luis: la ultima oración no se entiende] En este caso deberá comenzar a buscar la causa del problema planteado.
 
-Logica del Inicio del Caso Soporte Técnico.
+== Logica del Inicio del Caso Soporte Técnico.
 
 En una primera parte el Usuario Final recurre a la sub aplicación  Technical Support y la lógica sería que dicha aplicación consulte al componente WalletRunTime para verificar que wallet esta utilizando o navegando el usuario.
 
-A demás puede permitir que se pueda obtener mas información sobre que otras wallet ha estado usando. [Luis: esto para qué?]
+Además puede permitir que se pueda obtener mas información sobre que otras wallet ha estado usando. [Luis: esto para qué?]
 Este componente puede ser utilizado ya que retorna objetos que pueden proporcionar información sobre las wallet utilizadas por el Usuario Final.
 La información de dichas wallet debe ser capturada e ingresada en una lista para luego transferirla al Autor Developer.
-A demás de de esta información, también se debe listar capturar el mensaje que el Usuario Final ha enviado a la sub aplicación Technical Support. 
+Además de de esta información, también se debe listar capturar el mensaje que el Usuario Final ha enviado a la sub aplicación Technical Support. 
 
 El siguiente punto es conocer que plugin están involucrados en la wallet utilizada.
 Para conocer al responsable del plugin se debería instanciar el objeto Developer que debería permitir retornar los plugin que el Actor Developer están utilizando en ese momento. [Luis: esto no es así]
@@ -70,8 +70,7 @@ Dentro del código fuente de dicho componente se instancia el  Developer Develop
 Dentro de estos objetos se debería encontrar la información que se necesita inicialmente para que la misma se envié al Developer a través de la sub aplicación Technical Support. [Luis: no exactamente]
 
 
-
-Seguimiento Del Caso y Búsqueda De La Causa
+== Seguimiento Del Caso y Búsqueda De La Causa
 
 Para lograr un seguimiento y buscar las causas del problema planteado por el Usuario Final, el  Developer deberá recurrir y consultar a las diferentes capas del sistema para llegar a la solución o responsable del problema. [Luis: no exactamente]
 
