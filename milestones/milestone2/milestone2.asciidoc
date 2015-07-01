@@ -110,7 +110,11 @@ Al culminar nuestra edición obtemdremos como producto de la Wallet Factory un w
 
 Para esta tarea requerimos de un componente que permita no sólo publicar la wallet en el wallet store, sino también administrar la publicación de diferentes versiones de una wallet (actualizaciones/upgrades). También querríamos que se puedan conocer algunos datos relacionados a las descargas de la wallet, por ejemplo el número de usuarios que la han instalado. +
 Publicar en el Wallet Store significa que debemos registrar en el Wallet Store DMP Network Service que el dispositivo tiene esta wallet en su parte del catálogo. A su vez, requerimos colocar el wallet factory project en un lugar para que el wallet store pueda obtener la información necesaria para la instalación. +
-Entonces, al publicar una wallet el wallet publisher le pasa el wallet factory project al Wallet Store Resources (que debe crearse), el cuál administra los recursos de las wallets no instaladas. Tras almacenar esta información pasa a informarle al Network Service DMP Wallet Store que registre que posee la wallet a publicar (adicionalmente debemos resolver si colocaremos metainformación de la wallet). +
+Sin embargo, hay un detalle a considerar. Debemos mantener cierto nivel de seguridad para que nadie pueda subir
+
+
+Entonces, al publicar una wallet el wallet publisher le pasa el wallet factory project al Wallet Resources, el cuál administra los recursos de las wallets
+instaladas. Tras almacenar esta información pasa a informarle al Network Service DMP Wallet Store que registre que posee la wallet a publicar (adicionalmente debemos resolver si colocaremos metainformación de la wallet). +
 En principio este network service registra que él posee nuestra wallet en su catálogo e informa a otros dispositivos (determinados bajo algún criterio a definir) la información de la wallet.
 
 Para monitorear la cantidad de instalaciones utiliza el Network Service DMP Wallet Comunity, quien basicamente lleva el tracking de los Usuarios por Niche Wallet como una DAPP. 
@@ -118,54 +122,28 @@ Para monitorear la cantidad de instalaciones utiliza el Network Service DMP Wall
 === Wallet Store
 
 La Wallet Store es dentro del sistema fermat una DAPP (Distributed Application). Es decir que es una aplicación formada por un número indeterminado de nodos que colaboran entre si para manejar la funcionalidad de la DAPP a nivel del sistema completo. 
+Su función es mostrarle al usuario wallets que pueden serle de interés y si el usuario decide instalar una wallet comunica la acción al Wallet Manager.
+La Wallet Store debe manejar además de la identidad de la Wallet y del Developer que la publica. Además debe almacenar el Hash de la información correspondiente a la estructura de navegación y por otro lado el hash correspondiente a los recursos que esa wallet utiliza.
+Luego el Wallet Manager en el dispositivo del usuario que finalmente instala la nueva wallet, se encargará de validar que la estructura de navegación obtenida de algún peer, tenga el mismo hash. Lo mismo con los recursos.
 
+==== Catálogo Distribuído
 
+En este caso, cada nodo de la Wallet Store  mantiene una parte del catálogo distribuído de wallets disponibles. Los nodos son sensibles a su localización y al rango de acción del  dispositivo donde vive. Usando esos dos inputs, solo guarda la parte del catálogo que es de interés para los usuarios de ese dispositivo. En otras palabras, las billeteras que tienen sentido en la región donde dicho dispositivo se mueve.
 
-18. Hash de la Navegación y Recursos: La Wallet Store debe manejar además de la identidad de la Wallet y del Developer que la publica, el Hash de la información correspondiente a la estructura de navegación y por otro lado el hash correspondiente a los recursos que esa wallet utiliza.
+*Problemas a tratar*
 
-19. Validación de Hashes: Luego el Wallet Manager en el dispositivo del usuario que finalmente instala la nueva wallet, se encargará de validar que la estructura de navegación obtenida de algún peer, tenga el mismo hash. Lo mismo con los recursos.
+Para pensar (escrito por Luis):
 
-20. Catálogo Distribuído: En este caso, cada nodo de la Wallet Store  mantiene una parte del catálogo distribuído de wallets disponibles. Los nodos son sensibles a su localización y al rango de acción del  dispositivo donde vive. Usando esos dos inputs, solo guarda la parte del catálogo que es de interés para los usuarios de ese dispositivo. En otras palabras, las billeteras que tienen sentido en la región donde dicho dispositivo se mueve.
+. Cual es el criterio, exactamente que se evalúa para saber si una billetera es o no de interés para un cierto nodo?
+. Cuál es el criterio que un nodo usaría para difundir una billetera o para no hacerlo mas? Que criterio usaría? 
+. Los nodos estarían conectados por proximidad? O por que criterio?
 
-Para pensar: 
-Cual es el criterio, exactamente que se evalúa para saber si una billetera es o no de interés para un cierto nodo? 
+==== Target Version
 
-Cuál es el criterio que un nodo usaría para difundir una billetera o para no hacerlo mas? Que criterio usaría? 
+La SUB APP Wallet Store tiene en cuenta para mostrar cada versión de una nueva wallet que la target version de dicha versión esté ya instalada en el dispositivo del usuario, simplemente no mostrando (por ahora) las wallets que apuntan a una versión superior. En algún momento deberíamos ver si podemos forzar una actualización para lograr que se pueda instalar una wallet muy nueva.
 
-Los nodos estarían conectados por proximidad? O por que criterio?
+=== Wallet Manager
 
-21. Wallet Discovery: Un usuario de wallet cualquiera puede entonces através de la SUB APP Wallet Store corriendo en su dispositivo, encontrar la nueva Reference Niche Wallet publicada e instalarla.
- 
-22. Target Version: La SUB APP Wallet Store tiene en cuenta para mostrar cada versión de una nueva wallet que la target version de dicha versión esté ya instalada en el dispositivo del usuario, simplemente no mostrando (por ahora) las wallets que apuntan a una versión superior. En algún momento deberíamos ver si podemos forzar una actualización para lograr que se pueda instalar una wallet muy nueva.
+La instalación final la produce el Wallet Manager en el dispositivo del usuario que descarga la wallet. Este módulo es responsible de unir todas las partes para que la nueva wallet esté disponible para ser usada. +
 
-23. Wallet Manager: La instalación la produce el Wallet Manager en el dispositivo de este usuario, el cual es responsible de unir todas las partes para que la nueva reference wallet esté disponible para ser usada.
-
-24. Localización de Recursos: Los fragmentos ya están instalados em el dispositivo, de manera que lo que falta son los recursos de la wallet. Para esto el Wallet Manager los obtiene a través del Network Service Wallet Resources. Entre los recursos de la wallet (imagenes, sonidos, layouts, etc) vienen también el archivo con la estructura de navegación. El Wallet Manager le inyecta la estructura al Wallet Runtime para que esté disponible a la hora que el usuario navegue a la nueva wallet dentro de la aplicación.
-
-
-Clonación, Distribución y Consumo de Niche Wallets.
-
-1. Niche Wallet Developers: Algún miembro de nuestra red de UI/UX designers a la cual llamamos “Niche Wallet Developers” toma una Reference Wallet y la clona, para reorganizar su código, y cambiar su diseño y experiencia de uso.
-
-2. Clonado de Fragmentos: Para esto toma el código de la Reference Niche Wallet y lo pone en un nuevo proyecto en la capa Niche Wallet.
-
-3. Pull Request: Este código luego, cuando el Developer finalice una nueva versión de su Niche Wallet se somete via Pull Request para ser mezclado en nuestro proyecto Fermat. Los cambios deben incluir solo el folder nuevo creado específicamente para esta nueva version de una Niche Wallet y serán aprobados por nosotros mismos antes de ser mezclados.
-
-4. Clonado de Reference Wallet: El Developer entra en la SUB APP Wallet Factory y crea un nuevo proyecto en base a clonar una Reference Niche Wallet.
-
-Pensar: Para mostrar las wallets a clonar... tienen que estar instaladas?
-
-5. Developers PIP SUB APP: Para hacer esto deben estar logeados como Developers en la SUB APP Developers. El hecho de estar logeados, los obliga a haber creado una identidad como Developer, la cual luego servirá para cuestiones asociadas a las micro licencias de uso y para poder dar soporte técnico a sus wallets. 
-
-6. License Structure: Al hacer un clon en la SUB APP Wallet Factory, el sistema reconoce la esctuctura de propiedad anterior, dandole el crédito que se merece al creador de la Reference Niche Wallet, lo cual se traduce en respetar su licencia de uso.
-
-7. Mismo Workflow: Con el proyecto de Wallet Factory creado, los pasos siguientes son los mismos a los descriptos anteriormente para el caso de la Reference Niche Wallet.
-
-
-
-
-
-
-
-
-
+Los fragmentos ya están instalados em el dispositivo, de manera que lo que falta son los recursos de la wallet. Para esto el Wallet Manager los obtiene a través del Network Service Wallet Resources. Entre los recursos de la wallet (imagenes, sonidos, layouts, etc) vienen también el archivo con la estructura de navegación. El Wallet Manager le inyecta la estructura al Wallet Runtime para que esté disponible a la hora que el usuario navegue a la nueva wallet dentro de la aplicación.
