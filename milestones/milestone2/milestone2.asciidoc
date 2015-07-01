@@ -93,12 +93,14 @@ Como mencionamos antes, el wallet factory permite editar la estructura de navega
 * Crear un proyecto vacío
 * Persistir en disco la estructura de navegación junto con las referencias as los recursos
 * Correr un proyecto. Para lo cual deberá estar integrado correctamente en la plataforma
-* La edición debe ser en modo gráfico, por lo que al agregar/eliminar/modificar un componente de la estructura de navegación debemos hacer que 
+* La edición debe ser en modo gráfico, por lo que al agregar/eliminar/modificar un componente de la estructura de navegación debemos hacer que eso se refleje en una representación interna que luego podamos persistir.
+* Un punto central a resolver es también que queremos que se establezca la relación entre los fragmentos que ejecutan las acciones concretas de la wallet y la estructura de navegación y se almacene dicha información dentro del wallet factory project.
 
-NOTE: Quizás debemos buscar la forma que al realizar esta tarea de incorporar una wallet no se requiera reinstalar la plataforma-
+IMPORTANT: Pregunta técnica ¿Cómo incorporar el código sin tener que recompilar lo existente? 
+
+NOTE: Actualmente hay que hacer diversas modificaciones manuales para poder lograr integrar una nueva wallet y luego recompilar el proyecto. Hay que resolver cómo hacer estas configuraciones dinámicamente y automáticas a partir del wallet factory project.
 
 Con este proyecto, los recursos y el código podemos integrar la wallet para correrla. +
-Para esto es necesario agregar diversos enums en la plataforma y configurar algunas actividades.
 
 Al terminar esta configuración estamos en condiciones de hacer correr la wallet desde el wallet factory para poder testear lo programado.
 
@@ -106,18 +108,18 @@ Al terminar esta configuración estamos en condiciones de hacer correr la wallet
 
 Al culminar nuestra edición obtemdremos como producto de la Wallet Factory un wallet factory project. Hasta este momento la wallet que hemos creado sólo existe en nuestro dispositivo. Si deseamos ofrecer a otros usuarios la posibilidad de user nuestra wallet debemos publicarla para que puedan descargarla en el Wallet Store.
 
-Para esta tarea requerimos de un componente que permita no sólo publicar la wallet en el wallet store, sino también administrar la publicación de diferentes versiones de una wallet. También querríamos que se puedan conocer algunos datos relacionados a las descargas de la wallet, por ejemplo el número de usuarios. +
+Para esta tarea requerimos de un componente que permita no sólo publicar la wallet en el wallet store, sino también administrar la publicación de diferentes versiones de una wallet (actualizaciones/upgrades). También querríamos que se puedan conocer algunos datos relacionados a las descargas de la wallet, por ejemplo el número de usuarios que la han instalado. +
+Publicar en el Wallet Store significa que debemos registrar en el Wallet Store DMP Network Service que el dispositivo tiene esta wallet en su parte del catálogo. A su vez, requerimos colocar el wallet factory project en un lugar para que el wallet store pueda obtener la información necesaria para la instalación. +
+Entonces, al publicar una wallet el wallet publisher le pasa el wallet factory project al Wallet Store Resources (que debe crearse), el cuál administra los recursos de las wallets no instaladas. Tras almacenar esta información pasa a informarle al Network Service DMP Wallet Store que registre que posee la wallet a publicar (adicionalmente debemos resolver si colocaremos metainformación de la wallet). +
+En principio este network service registra que él posee nuestra wallet en su catálogo e informa a otros dispositivos (determinados bajo algún criterio a definir) la información de la wallet.
 
-Es el Wallet Publisher quien permite realizar estas tareas. Para subir una nueva version de nuestra Niche Wallet a la Wallet Store, se comunica con el Network Service DMP Wallet Store, que en el fondo es un nodo de la DAPP Wallet Store. +
 Para monitorear la cantidad de instalaciones utiliza el Network Service DMP Wallet Comunity, quien basicamente lleva el tracking de los Usuarios por Niche Wallet como una DAPP. 
 
+=== Wallet Store
+
+La Wallet Store es dentro del sistema fermat una DAPP (Distributed Application). Es decir que es una aplicación formada por un número indeterminado de nodos que colaboran entre si para manejar la funcionalidad de la DAPP a nivel del sistema completo. 
 
 
-
-
-16. Distribución vía Wallet Store: La Wallet Store acepta la publicación de la nueva (versión) de la Reference Niche Wallet y hace el relay en el DMP Network Service Wallet Store, para que se expanda por la región donde este tipo de wallet tiene sentido existir.
-
-17. Wallet Store DAPP: La Wallet Store es dentro del sistema fermat una DAPP (Distributed Application). Es decir que es una aplicación formada por un número indeterminado de nodos que colaboran entre si para manejar la funcionalidad de la DAPP a nivel del sistema completo. 
 
 18. Hash de la Navegación y Recursos: La Wallet Store debe manejar además de la identidad de la Wallet y del Developer que la publica, el Hash de la información correspondiente a la estructura de navegación y por otro lado el hash correspondiente a los recursos que esa wallet utiliza.
 
