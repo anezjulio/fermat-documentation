@@ -6,12 +6,12 @@
 == Introducción
 
 En el milestone 1 desarrollamos nuestra primer Reference Niche Wallet. Este tipo de wallet como su nombre lo indica busca ser una referencia para que los desarrolladores de wallets puedan incorporar sus ideas de manera más simple que construyendo una wallet desde cero. +
-La Reference Nich Wallet es completamente funcional, sin embargo su objetivo es ser minimalista para que su código y estructura pueda ser fácilmente reutilizada por los desarrolladores. +
+La Reference Niche Wallet es completamente funcional, sin embargo su objetivo es ser minimalista para que su código y estructura pueda ser fácilmente reutilizada por los desarrolladores. +
 Funcionalmente una reference wallet es idéntica a una nich wallet, pero conceptualmente se mantienen separadas en el sistema para poder distinguirlas fácilmente, en principio estas reference wallet son desarrolladas por bitDubai.
 
 Lo que necesitamos incorporar en este milestone son los mecanismos para permitir que los desarrolladores creen e incorporen sus wallets al sistema. +
 
-Ante este problema surge la pregunta de qué es una wallet con presisión.
+Ante este problema surge la necesidad de definir qué es una wallet con presisión.
 
 == Wallet
 
@@ -23,12 +23,40 @@ Este tipo de aplicación involucra una gran cantidad de módulos. Podemos distin
 
 Comencemos analizando los conceptos del front-end. +
 
+Estrcutura de navegación:: Es una estructura que que representa lo que la interfaz de la wallet muestra, sean menues, tabs, fragmentos, botones, etc.
+Recursos:: Son principalmente las imágenes que aparecen en la wallet-
 
+En el back-end tenemos componentes que se encargan de diversas funciones, entro otros:
 
+* Ejecutar las acciones de envío y recepción de bitcoins. 
+* Llevar un balance de cuenta de la wallet.
+* Administración de los contactos (registro, identificación, etc).
 
+Para construír una nueva wallet desde cero uno podría escribir todos los módulos necesarios, la idea de la reference wallet es que los desarrolladores puedan reutilizar todo el back-end que usa la reference wallet y así agilizar su trabajo. +
 
+== Requerimientos básicos
 
+=== Administración de Developers
 
+Requerimos mecanismos para:
+
+* Identificar a un desarrollador (sea una persona física o empresa)
+* Permitir que el desarrollador pueda editar la estructura de navegación y recursos
+* Permitir que el desarrollador pueda publicar su wallet y realizar un seguimiento de la misma.
+
+=== Administración de Wallets
+
+Requerimos mecanismos para:
+
+* Identificar wallets y recursos
+* Crear una nueva Niche Wallet
+* Editar una nueva Niche Wallet
+* Correr y testear la Niche Wallet en el dispositivo
+* Exponer la wallet para que pueda descargarse por otros usuarios
+
+== Infraestructura y Procedimientos
+
+Crearemos diversos
 
 
 
