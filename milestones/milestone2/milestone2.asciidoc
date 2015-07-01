@@ -1,4 +1,4 @@
-= Milestone 2 - Creación, Distribución y Consumo de Reference Niche Wallets.
+= Milestone 2 - Creación, Distribución y Consumo de Reference Niche Wallets y Niche Wallets.
 :author: Luis Molina <luis.molina@bitdubai.com> - Ezequiel Postan <ezequiel_postan@hotmail.com>
 :version: v1.0
 :date: 2015-06-30
@@ -6,12 +6,12 @@
 == Introducción
 
 En el milestone 1 desarrollamos nuestra primer Reference Niche Wallet. Este tipo de wallet como su nombre lo indica busca ser una referencia para que los desarrolladores de wallets puedan incorporar sus ideas de manera más simple que construyendo una wallet desde cero. +
-La Reference Niche Wallet es completamente funcional, sin embargo su objetivo es ser minimalista para que su código y estructura pueda ser fácilmente reutilizada por los desarrolladores. +
-Funcionalmente una reference wallet es idéntica a una nich wallet, pero conceptualmente se mantienen separadas en el sistema para poder distinguirlas fácilmente, en principio estas reference wallet son desarrolladas por bitDubai.
+La Reference Niche Wallet es completamente funcional, sin embargo su objetivo es ser minimalista para que su código y estructura pueda ser fácilmente reutilizada por los desarrolladores de Niche Wallets. +
+Funcionalmente una Reference Niche Wallet es idéntica a una Niche Wallet, pero conceptualmente se mantienen separadas en el sistema para poder distinguirlas fácilmente, en principio estas Reference Niche Wallets son desarrolladas por bitDubai.
 
-Lo que necesitamos incorporar en este milestone son los mecanismos para permitir que los desarrolladores creen e incorporen sus wallets al sistema. +
+Lo que necesitamos incorporar en este milestone son los mecanismos para permitir que los desarrolladores de Niche Wallets creen e incorporen sus wallets al sistema. +
 
-Ante este problema surge la necesidad de definir qué es una wallet con presisión.
+Ante este problema surge la necesidad de definir qué es una wallet con precisión.
 
 == Wallet
 
@@ -24,15 +24,15 @@ Este tipo de aplicación involucra una gran cantidad de módulos. Podemos distin
 Comencemos analizando los conceptos del front-end. +
 
 Estrcutura de navegación:: Es una estructura que que representa lo que la interfaz de la wallet muestra, sean menues, tabs, fragmentos, botones, etc.
-Recursos:: Son principalmente las imágenes que aparecen en la wallet-
+Recursos:: Son principalmente las imágenes u otros elementos multimedia que aparecen en la wallet-
 
 En el back-end tenemos componentes que se encargan de diversas funciones, entro otros:
 
 * Ejecutar las acciones de envío y recepción de bitcoins. 
-* Llevar un balance de cuenta de la wallet.
+* Llevar un balance contable de la wallet.
 * Administración de los contactos (registro, identificación, etc).
 
-Para construír una nueva wallet desde cero uno podría escribir todos los módulos necesarios, la idea de la reference wallet es que los desarrolladores puedan reutilizar todo el back-end que usa la reference wallet y así agilizar su trabajo. +
+Para construír una nueva wallet desde cero uno podría escribir todos los módulos necesarios, la idea de la reference wallet es que los desarrolladores de Niche Wallets puedan reutilizar todo el back-end que usa la Reference Niche Wallet y así agilizar su trabajo. +
 
 == Requerimientos básicos
 
@@ -54,9 +54,9 @@ Requerimos mecanismos para:
 * Correr y testear la Niche Wallet en el dispositivo
 * Exponer la wallet para que pueda descargarse por otros usuarios
 
-== Infraestructura para los rocedimientos
+== Infraestructura para los procedimientos
 
-Antes de recorrer todo el proceso que adoptaremos para añadir como desarrolladores nuevas wallets, presentaremos brevemente los diversos componentes que agregaremos para cumplir con este milestone. Tras la presentación continuaremos con un desarrollo más detallado del los procedimientos. + 
+Antes de recorrer todo el proceso que adoptaremos para añadir como desarrolladores nuevas Niche Wallets, presentaremos brevemente los diversos componentes que agregaremos para cumplir con este milestone. Tras la presentación continuaremos con un desarrollo más detallado del los procedimientos. + 
 
 Developer PIP sub APP:: Esta sub app le permite a los desarrolladores registrarse como tales en la red. Además le provee herramientas para testear sus wallets y otros plugins del sistema.
 Wallet Runtime:: Este plugin se encarga de almacenar y administrar la estructura de navegación de las wallets.
