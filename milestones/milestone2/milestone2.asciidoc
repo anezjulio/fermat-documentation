@@ -135,7 +135,9 @@ Luego el Wallet Manager en el dispositivo del usuario que finalmente instala la 
 
 ==== Catálogo Distribuído
 
-En este caso, cada nodo de la Wallet Store mantiene una parte del catálogo distribuído de wallets disponibles. Los nodos son sensibles a su localización y al rango de acción del dispositivo donde vive. Usando esos dos inputs, solo guarda la parte del catálogo que es de interés para los usuarios de ese dispositivo. En otras palabras, las billeteras que tienen sentido en la región donde dicho dispositivo se mueve.
+Cada nodo de la Wallet Store mantiene una parte del catálogo distribuído de wallets disponibles. En principio querríamos que estos nodos muestren información relevante al usuario. La información que da este network service debe poder contrastarse con la versión de la plataforma que tenemos instalada  (plug-ins instalados) para poder comunicarle al usuario qué cosas puede instalar sin actualizar la plataforma y qué cosas podría instalar de hacer un upgrade.
+
+Criterios para determinar relevancia de una wallet para un usuario: localización del usuario, rango de acción, tipo de compras, etc. 
 
 *Problemas a tratar*
 
@@ -153,4 +155,4 @@ La SUB APP Wallet Store tiene en cuenta para mostrar cada versión de una nueva 
 
 La instalación final la produce el Wallet Manager en el dispositivo del usuario que descarga la wallet. Este módulo es responsible de unir todas las partes para que la nueva wallet esté disponible para ser usada. +
 
-Los fragmentos ya están instalados em el dispositivo, de manera que lo que falta son los recursos de la wallet. Para esto el Wallet Manager los obtiene a través del Network Service Wallet Resources. Entre los recursos de la wallet (imagenes, sonidos, layouts, etc) vienen también el archivo con la estructura de navegación. El Wallet Manager le inyecta la estructura al Wallet Runtime para que esté disponible a la hora que el usuario navegue a la nueva wallet dentro de la aplicación.
+Los fragmentos ya están instalados em el dispositivo, de manera que lo que falta son los recursos de la wallet. Para esto el Wallet Manager los obtiene a través del Network Service Wallet Resources. Entre los recursos de la wallet (imagenes, sonidos, layouts, etc) vienen también el archivo con la estructura de navegación (el wallet factory project). El Wallet Manager le inyecta la estructura al Wallet Runtime para que esté disponible a la hora que el usuario navegue a la nueva wallet dentro de la aplicación. + 

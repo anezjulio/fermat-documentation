@@ -1,0 +1,4 @@
+= Notas generales de cambios a realizar y cosas a pensar
+
+. Localización de las wallets que se incorporen, estructura de paquetes. Originalmente teníamos una clase Subsystem que elige entre los desarrolladores de una wallet y un developer que determina la versión del plugin.
+. Hay que hacer que en platform no se inicialicen todos los plugins sino los correspondientes a las cosas instaladas
