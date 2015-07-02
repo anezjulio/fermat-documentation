@@ -1,0 +1,5 @@
+= Wallet Community - Network Service Layer
+
+Este plug-in escucha el evento de la Wallet Store sub App que anuncia que una wallet se está instalando y envía información al wallet community del developer informando la actualización.
+
+Posiblemente se informen otros datos del usuario que instaló la wallet como por ejemplo la localización del mismo.

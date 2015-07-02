@@ -1,0 +1,4 @@
+= Wallet Resources - Network Service Layer
+
+Este plugin es un nodo de una DAPP (Distributed Application). Administra los Wallet Factory Projects (WFP) de las wallets que reciden en el dispositivo (instalados y publicados). También se encarga de obtener los WFP de wallets que desean instalarse. Cuando un plugin requiere un recurso para una wallet, este plugin es quien se lo entrega. +
+También entrega al Wallet Manager la estructura de navegación para que él pueda instalar una nueva wallet. +

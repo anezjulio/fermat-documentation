@@ -1,0 +1,5 @@
+= Miscelanea
+
+Aquí hemos reunido notas generales sobre el milestne
+
+. Requerimos enumerar las wallets y la versión mínima de la plataforma desde que puede encontrarse dicha wallet.
