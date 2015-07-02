@@ -3,6 +3,8 @@
 :version: v1.0
 :date: 2015-06-30
 
+Este es un draft general del milestone 2. Los detalles están en proceso de refinamiento en archivos concretos correspondientes a cada módulo que se menciona aquí.
+
 == Introducción
 
 En el milestone 1 desarrollamos nuestra primer Reference Niche Wallet. Este tipo de wallet como su nombre lo indica busca ser una referencia para que los desarrolladores de wallets puedan incorporar sus ideas de manera más simple que construyendo una wallet desde cero. +
@@ -23,8 +25,8 @@ Este tipo de aplicación involucra una gran cantidad de módulos. Podemos distin
 
 Comencemos analizando los conceptos del front-end. +
 
-Estrcutura de navegación:: Es una estructura que que representa lo que la interfaz de la wallet muestra, sean menues, tabs, fragmentos, botones, etc.
-Recursos:: Son principalmente las imágenes u otros elementos multimedia que aparecen en la wallet-
+Estrcutura de navegación:: Es una estructura que que representa lo que la interfaz de la wallet muestra, sean menues, tabs, fragmentos, botones, etc. Contiene referencias a los recursos que utiliza.
+Recursos:: Son principalmente las imágenes u otros elementos multimedia que aparecen en la wallet.
 
 En el back-end tenemos componentes que se encargan de diversas funciones, entre otros:
 
@@ -76,7 +78,7 @@ Aquí debemos ingresar entre otras cosas datos de contacto, los cuales deberán 
 
 Supongamos que queremos crear una wallet a partir de la Bitcoin Reference Wallet. Procedemos entonces a hacer un fork del repositorio de fermat de bitDubai y lo clonamos en nuestra computadora. +
 Una vez clonado creamos un nuevo paquete en fermat/DMP/android/niche_wallet y otro en fermat/DMP/plugin/nuche_wallet_type con nombres adecuados como por ejemplo: /home/eze/Escritorio/fermat/DMP/android/niche_wallet/fermat-dmp-android-niche-wallet-bitcoin-wallet-myDeveloperName y /home/eze/Escritorio/fermat/DMP/plugin/niche_wallet_type/fermat-dmp-plugin-niche-wallet-type-crypto-wallet-myDeveloperName. +
-En el folder de android se coloca el código dependiente de android, mientras que en el plugin se coloca la lógica de la wallet, la cual es un proyecto java. Cuando querramos exportar nuestra wallet a otra plataforma sólo deberemos reescribir el módulo dependiente de la plataforma, pero la lógica que se escribió en java (lo que está en DMP/plugin) no requerirá reescribirse. +
+En el folder de android se coloca el código dependiente de android (de haber otras plataformas disponibles se agregan directorios en las locaciones análogas), mientras que en el plugin se coloca la lógica de la wallet, la cual es un proyecto java. Cuando querramos exportar nuestra wallet a otra plataforma sólo deberemos reescribir el módulo dependiente de la plataforma, pero la lógica que se escribió en java (lo que está en DMP/plugin) no requerirá reescribirse. +
 
 NOTE: En DMP/plugin hay que crear la capa reference_niche_wallet_type y separar la reference bitcoin wallet allí o crear una para las niche_Wallet_type que no son reference.
 
@@ -87,16 +89,16 @@ Procedemos entonces a abrir el Wallet Factory. +
 
 === Wallet Factory
 
-Como mencionamos antes, el wallet factory permite editar la estructura de navegación de una wallet y sus recursos. Esta información se persiste en disco en un formato que llamaremos Wallet Factory Project. También deberá proveer la manera de permitir al desarrollador ejecutar concretamente lo que está editando. Para realizar estas labores requeriremos que entre otras cosas se pueda
+Como mencionamos antes, el wallet factory permite editar la estructura de navegación de una wallet y sus recursos. Esta información, junto con la relación que enlaza la estructura de navegación con los fragmentos programados de back-end se persiste en disco en un formato que llamaremos Wallet Factory Project o WFP. +
+La Wallet Factory también deberá proveer la manera de permitir al desarrollador ejecutar concretamente lo que está editando (esta funcionalidad será similar a lo que hace el wallet runtime más la funcionalidad de proveer los recursos multimedia (entro otros) a la wallet). Para realizar estas labores requeriremos que entre otras cosas se pueda:
 
-* Importar la estructura de navegación y recursos de otra wallet.
-* Crear un proyecto vacío
-* Persistir en disco la estructura de navegación junto con las referencias a los recursos
-* Correr un proyecto. Para lo cual deberá estar integrado correctamente en la plataforma
+* Importar el WFP de una wallet existente.
+* Crear un WFP vacío
+* Persistir el proyecto en disco.
+* Correr un proyecto. Para lo cual el back-end asociado deberá estar integrado en la plataforma en que se edita el proyecto.
 * La edición debe ser en modo gráfico, por lo que al agregar/eliminar/modificar un componente de la estructura de navegación debemos hacer que eso se refleje en una representación interna que luego podamos persistir.
-* Un punto central a resolver es también que queremos que se establezca la relación entre los fragmentos que ejecutan las acciones concretas de la wallet y la estructura de navegación y se almacene dicha información dentro del wallet factory project.
 
-IMPORTANT: Pregunta técnica ¿Cómo incorporar el código sin tener que recompilar lo existente? 
+IMPORTANT: Pregunta técnica ¿Podemos incorporar el código nuevo a otro nodo sin tener que recompilar lo existente en todas las plataformas? 
 
 NOTE: Actualmente hay que hacer diversas modificaciones manuales para poder lograr integrar una nueva wallet y luego recompilar el proyecto. Hay que resolver cómo hacer estas configuraciones dinámicamente y automáticas a partir del wallet factory project.
 
@@ -106,31 +108,42 @@ Al terminar esta configuración estamos en condiciones de hacer correr la wallet
 
 === Wallet Publisher
 
-Al culminar nuestra edición obtemdremos como producto de la Wallet Factory un wallet factory project. Hasta este momento la wallet que hemos creado sólo existe en nuestro dispositivo. Si deseamos ofrecer a otros usuarios la posibilidad de user nuestra wallet debemos publicarla para que puedan descargarla en componente que llamamos Wallet Store.
+Al culminar nuestra edición obtemdremos como producto de la Wallet Factory un WFP. Hasta este momento la wallet que hemos creado sólo existe en nuestro dispositivo. Si deseamos ofrecer a otros usuarios la posibilidad de usar nuestra wallet debemos publicarla para que puedan descargarla en componente que llamamos Wallet Store.
 
-Para que la wallet funcione requerimos por un lado tener el código que ejecuta la wallet (el back-end), por otro lado requerimos los recursos, estructura de navegación y archivo de configuración que relaciona la estrcutura de navegación con el back-end (estos componentes conforman el wallet factory project de la wallet). Por tanto debemos buscar la forma de ofrecer estos recursos. Un problema a considerar es que queremos controlar el código que se sube a la plataforma y evitar que se use nuestro sistema para que se distribuya software mal intencionado. +
-La wallet (back-end y su wallet factory project) será sometida a un pull request en el repositorio central de bitDubai. No podemos evitar que un nodo integre al catálogo y wallet resources wallet factory projects dado que el desarrollador tiene una versión completa del sistema corriendo en su dispositivo. Por ende debemos proveer un mecanismo que permita al nodo de la plataforma que quiera descargar una wallet verificar que los recursos que descarga son correctos. +
-Optaremos por colocar un hash del wallet factory project en el mismo plug-in root de la wallet que creamos, este hash entre otros datos (como la identidad del developer) estará hardcodeado en el código de la clase root y se accederá a esta información a través de una interfaz que debemos definir. De esta manera si como desarrolladores intentamos publicar recursos falsos que intenten subplantar los de una wallet existente, el nodo que descargue dichos recursos contrastará el hash de lo que descarga contra el hash que tiene registrado y si no coincide el network service descarta lo que descargó y lo busca de otro(s) nodo(s). +
-En el casod e nuestra nueva wallet, para que alguien pueda descargarla esta debe haber sido aprobada previemente por bitDubai, por lo que el hash también fue comprobado. Por lo que tras estar habilitada para descargarse nuestra wallet nosotros tampoco podremos alterar los recursos que enviamos. +
-Por otro lado, si mandamos recursos de cosas que aún no han sido integradas en la plataforma, no va a existir manera de que otros nodos lo busquen de por sí, porque el wallet store sólo debería ofrecer descargar wallets que están registradas en la plataforma. +
+Para que la wallet funcione requerimos por un lado tener el código que ejecuta la wallet (el back-end), por otro lado requerimos el wallet factory project de la wallet. Por tanto debemos buscar la forma de ofrecer estos recursos. Un problema a considerar es que queremos controlar el código que se sube a la plataforma y evitar que se use nuestro sistema para que se distribuya software mal intencionado. +
+La back-end de la wallet será sometido a un pull request en el repositorio central de bitDubai y su wallet factory project se enviará por separado. Sólo se podrá descargar el back-end de una wallet al descargar una nueva versión de la plataforma. Los recursos no se descargan con la plataforma, estos se consiguen (en principio) a través de network services (el network service Wallet Resources es quien tendrá el WFP de la wallet y el network service Wallet Store es quién agrega al catálogo la wallet).
+No podemos evitar que un nodo integre al catálogo y wallet resources wallet factory projects dado que el desarrollador tiene una versión completa del sistema corriendo en su dispositivo, la cual puede alterar a deseo. Por ende debemos proveer al nodo de la plataforma que quiera descargar una wallet un mecanismo que permita verificar que los recursos que descargan son correctos. +
+Optaremos por colocar un hash del wallet factory project en el mismo plug-in root de la wallet que creamos, este hash entre otros datos (como la identidad del developer, el precio de la licencia, dirección de pago, etc) estará hardcodeado en el código de la clase root y se accederá a esta información a través de una interfaz que debemos definir. De esta manera si como desarrolladores intentamos publicar recursos falsos que intenten subplantar los de una wallet existente, el nodo que descargue dichos recursos contrastará el hash de lo que descarga contra el hash que tiene registrado y si no coincide el network service descarta lo que descargó y lo busca de otro(s) nodo(s). +
+En el caso de nuestra nueva wallet, para que alguien pueda descargarla esta debe haber sido aprobada previemente por bitDubai, por lo que el hash también fue comprobado. Así, tras estar habilitada para descargarse nuestra wallet nosotros tampoco podremos alterar los recursos que enviamos. +
+Por otro lado, si mandamos recursos de cosas que aún no han sido integradas en la plataforma, no va a existir manera de que otros nodos lo busquen instalar de por sí, porque el wallet store sólo debería ofrecer descargar wallets que están registradas en la versión de la plataforma que se está corriendo. +
 
-El componente Wallet Publisher será quien:
+NOTE: Hay que refinar el manejo de lo que se muestra en el wallet store y la falsificación de información.
 
-* Publicará la wallet en el wallet store. 
-* Administrará la publicación de diferentes versiones de una wallet (actualizaciones/upgrades). 
-* Informa algunos datos relacionados a las descargas de la wallet, por ejemplo el número de usuarios que la han instalado. +
+El componente Wallet Publisher será entonces responsable de:
+
+* Publicar la wallet en el wallet store. 
+* Administrar la publicación de diferentes versiones de una wallet (actualizaciones/upgrades). 
+* Informar algunos datos relacionados a las descargas de la wallet, por ejemplo el número de usuarios que la han instalado. +
 
 Publicar en el Wallet Store significa que debemos registrar en el Wallet Store DMP Network Service que el dispositivo tiene esta wallet en su parte del catálogo. A su vez, requerimos colocar el wallet factory project en un lugar para que el wallet store pueda obtener la información necesaria para la instalación. El componente encargado de almacenar los wallet factory projects a publicar es el Network Service Wallet Resources, el cuál administra los recursos de las wallets instaladas y publicadas. +
-Tras almacenar esta información, el Wallet Publisher pasa a informarle al Network Service DMP Wallet Store que registre que posee la wallet a publicar (adicionalmente debemos resolver qué metainformación de la wallet agregaremos, seguramente aquí irán el hash de los resources y el de la estructura de navegación). +
-En principio este network service registra que él posee nuestra wallet en su catálogo e informa a otros dispositivos (determinados bajo algún criterio a definir) la información de la wallet.
+
+NOTE: Podrían ponerse restricciones a lo que se puede publicar, pero como el desarrollador tendrá acceso a modificar todo el código que desee en su nodo no veo mucho sentido a estas acciones.
+
+Tras almacenar esta información, el Wallet Publisher pasa a informarle al Network Service DMP Wallet Store que registre que posee la wallet a publicar (adicionalmente debemos resolver qué metainformación de la wallet agregaremos). +
+En principio este network service registra que él posee nuestra wallet en su catálogo e informa a otros dispositivos (determinados bajo algún criterio a definir) la información de la wallet. 
+
+NOTE: esto debe refinarse.
 
 Para monitorear la cantidad de instalaciones utiliza el Network Service DMP Wallet Comunity, quien basicamente lleva el tracking de los Usuarios por Niche Wallet como una DAPP. 
 
 === Wallet Store
 
 La Wallet Store es dentro del sistema fermat una DAPP (Distributed Application). Es decir que es una aplicación formada por un número indeterminado de nodos que colaboran entre si para manejar la funcionalidad de la DAPP a nivel del sistema completo. +
-Su función es mostrarle al usuario wallets que pueden serle de interés y si el usuario decide instalar una wallet comunica la acción al Wallet Manager.
-La Wallet Store debe manejar además de la identidad de la Wallet y del Developer que la publica. Además debe almacenar el Hash de la información correspondiente a la estructura de navegación y por otro lado el hash correspondiente a los recursos que esa wallet utiliza.
+Su función es mostrarle al usuario wallets que pueden serle de interés y si el usuario decide instalar una wallet comunica la acción al Wallet Manager. +
+La Wallet Store debe manejar además de la identidad de la Wallet y del Developer que la publica. Además debe almacenar el Hash de la información correspondiente a la estructura de navegación y por otro lado el hash correspondiente a los recursos que esa wallet utiliza. +
+
+NOTE: Quizás no sea necesario lo de almacenamiento de arriba
+
 Luego el Wallet Manager en el dispositivo del usuario que finalmente instala la nueva wallet, se encargará de validar que la estructura de navegación obtenida de algún peer, tenga el mismo hash. Lo mismo con los recursos.
 
 ==== Catálogo Distribuído
@@ -147,12 +160,8 @@ Para pensar (escrito por Luis):
 . Cuál es el criterio que un nodo usaría para difundir una billetera o para no hacerlo mas? Que criterio usaría? 
 . Los nodos estarían conectados por proximidad? O por que criterio?
 
-==== Target Version
-
-La SUB APP Wallet Store tiene en cuenta para mostrar cada versión de una nueva wallet que la target version de dicha versión esté ya instalada en el dispositivo del usuario, simplemente no mostrando (por ahora) las wallets que apuntan a una versión superior. En algún momento deberíamos ver si podemos forzar una actualización para lograr que se pueda instalar una wallet muy nueva.
-
 === Wallet Manager
 
-La instalación final la produce el Wallet Manager en el dispositivo del usuario que descarga la wallet. Este módulo es responsible de unir todas las partes para que la nueva wallet esté disponible para ser usada. +
+La instalación final la produce el Wallet Manager en el dispositivo del usuario que descarga la wallet. Este módulo es responsable de unir todas las partes para que la nueva wallet esté disponible para ser usada. +
 
-Los fragmentos ya están instalados em el dispositivo, de manera que lo que falta son los recursos de la wallet. Para esto el Wallet Manager los obtiene a través del Network Service Wallet Resources. Entre los recursos de la wallet (imagenes, sonidos, layouts, etc) vienen también el archivo con la estructura de navegación (el wallet factory project). El Wallet Manager le inyecta la estructura al Wallet Runtime para que esté disponible a la hora que el usuario navegue a la nueva wallet dentro de la aplicación. + 
+Los fragmentos ya están instalados em el dispositivo, de manera que lo que falta es la WFP de la wallet. Para esto el Wallet Manager los obtiene a través del Network Service Wallet Resources. Del WFP se extrae la estructura de navegación, el Wallet Manager le inyecta la estructura al Wallet Runtime para que esté disponible a la hora que el usuario navegue a la nueva wallet dentro de la aplicación. + 
