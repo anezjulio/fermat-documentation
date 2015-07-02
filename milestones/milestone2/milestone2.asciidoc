@@ -54,33 +54,34 @@ Requerimos mecanismos para:
 * Crear una nueva Niche Wallet
 * Editar una nueva Niche Wallet
 * Correr y testear la Niche Wallet en el dispositivo
-* Exponer la wallet para que pueda descargarse por otros usuarios
+* Publicar la wallet para que pueda descargarse por otros usuarios
+* Compartir la wallet con otro dispositivo para probarla allí
 
 == Infraestructura para los procedimientos
 
 Antes de recorrer todo el proceso que adoptaremos para añadir como desarrolladores nuevas Niche Wallets, presentaremos brevemente los diversos componentes que agregaremos para cumplir con este milestone. Tras la presentación continuaremos con un desarrollo más detallado de los procedimientos. + 
 
-Developer PIP sub APP:: Esta sub app le permite a los desarrolladores registrarse como tales en la red. Además le provee herramientas para testear sus wallets y otros plugins del sistema.
+Developer PIP sub APP:: Esta sub app le permite a los desarrolladores registrarse como tales en el sistema. Además le provee herramientas para testear sus wallets y otros plugins de la plataforma.
 Wallet Runtime:: Este plugin se encarga de almacenar y administrar la estructura de navegación de las wallets.
-Wallet Resources:: Este plugin es un network service, administra los recursos de las wallets y se encarga de conseguir los recursos que le pidan si es que no los tiene.
-Wallet Factory SUB APP:: Cuando un developer cree una nueva wallet, esta sub app permitirá realizar la edición de la estructura de navegación y la edición de recursos de la wallet. Sin embargo no interactuará con el Wallet Runtime ni el Wallet Resources. Esta sub app creará proyectos que llamaremos wallet factory projects.
+Wallet Resources:: Este plugin es un network service del tipo DAPP (Distributed Application), administra los recursos de las wallets y se encarga de conseguir los recursos que le pidan si es que no los tiene.
+Wallet Factory SUB APP:: Cuando un developer cree una nueva wallet, esta sub app permitirá realizar la edición de la estructura de navegación y la edición de recursos de la wallet. Sin embargo no interactuará con el Wallet Runtime ni el Wallet Resources. Esta sub app creará proyectos que llamaremos Wallet Factory Projects.
 Wallet Publisher:: El Wallet Publisher permite crear un proyecto asociado a una Niche Wallet y entre otras cosas maneja el hecho de que puedan haber diferentes versiones de la misma. Una vez finalizada cada nueva versión de la Niche Wallet, exportamos el proyecto de Wallet Factory para que pueda ser abierto por el Wallet Publisher como una versión determinada de la Niche Wallet. + 
-El Wallet Publisher permite también administrar que versiones se van subiendo a la wallet store y monitorear la cantidad de instalaciones de cada versión de la wallet en el sistema Fermat. Para subir una nueva version de la Reference Niche Wallet a la Wallet Store, se comunica con el Network Service DMP Wallet Store, que en el fondo es un nodo de la DAPP Wallet Store.
+El Wallet Publisher permite también administrar que versiones se van subiendo a la Wallet Store y monitorear la cantidad de instalaciones de cada versión de la wallet en el sistema Fermat. Para subir una nueva version de la Reference Niche Wallet a la Wallet Store, se comunica con el Network Service DMP Wallet Store, que en el fondo es un nodo de la DAPP Wallet Store.
 Wallet Store:: La Wallet Store es dentro del sistema fermat una DAPP (Distributed Application). Es decir que es una aplicación formada por un número indeterminado de nodos que colaboran entre si para manejar la funcionalidad de la DAPP a nivel del sistema completo. Su función es aceptar la publicación de la nueva (o nueva versión) de una Niche Wallet y comunica al DMP Network Service Wallet Store, para que se expanda por la región donde este tipo de wallet tiene sentido existir.
-Wallet Manager:: La instalación la produce el Wallet Manager en el dispositivo de este usuario, el cual es responsible de unir todas las partes para que la nueva reference wallet esté disponible para ser usada.
+Wallet Manager:: La instalación la produce el Wallet Manager en el dispositivo de del usuario final, el cual es responsible de unir todas las partes para que la nueva Reference Niche Wallet | Niche Wallet esté disponible para ser usada.
 
 == Primeros refinamientos
 
 Analicemos los pasos para incorporar una wallet y extendamos las definiciones anteriores.
 
 Lo primero que debemos realizar es registrarnos como desarrolladores en el sub app Developers. +
-Aquí debemos ingresar entre otras cosas datos de contacto, los cuales deberán ser verificados antes de permitirle a un desarrollador utilizar las funcionalidades de la plataforma que exijen este tipo de identificación. +
+Aquí debemos ingresar entre otras cosas datos de contacto los cuales deberán ser verificados antes de permitirle a un desarrollador utilizar las funcionalidades de la plataforma que exijen este tipo de identificación. [Eze, que tipo de datos de contacto? Nuestra política es trabajar independiente de mecanismos estandares que dependen de elementos centralizados que pueden ser prohibidos u espiados, con lo cual no vamos a requerir emails, SMS, ni nada por el estilo. Luis] +
 
 Supongamos que queremos crear una wallet a partir de la Bitcoin Reference Wallet. Procedemos entonces a hacer un fork del repositorio de fermat de bitDubai y lo clonamos en nuestra computadora. +
-Una vez clonado creamos un nuevo paquete en fermat/DMP/android/niche_wallet y otro en fermat/DMP/plugin/nuche_wallet_type con nombres adecuados como por ejemplo: /home/eze/Escritorio/fermat/DMP/android/niche_wallet/fermat-dmp-android-niche-wallet-bitcoin-wallet-myDeveloperName y /home/eze/Escritorio/fermat/DMP/plugin/niche_wallet_type/fermat-dmp-plugin-niche-wallet-type-crypto-wallet-myDeveloperName. +
-En el folder de android se coloca el código dependiente de android (de haber otras plataformas disponibles se agregan directorios en las locaciones análogas), mientras que en el plugin se coloca la lógica de la wallet, la cual es un proyecto java. Cuando querramos exportar nuestra wallet a otra plataforma sólo deberemos reescribir el módulo dependiente de la plataforma, pero la lógica que se escribió en java (lo que está en DMP/plugin) no requerirá reescribirse. +
+Una vez clonado creamos un nuevo paquete en fermat/DMP/android/niche_wallet y otro en fermat/DMP/plugin/niche_wallet_type con nombres adecuados como por ejemplo: /home/eze/Escritorio/fermat/DMP/android/niche_wallet/fermat-dmp-android-niche-wallet-bitcoin-wallet-myDeveloperName y /home/eze/Escritorio/fermat/DMP/plugin/niche_wallet_type/fermat-dmp-plugin-niche-wallet-type-crypto-wallet-myDeveloperName. +
+En el folder de android se coloca el código dependiente de android (de haber otras plataformas disponibles se agregan directorios en las locaciones análogas), mientras que en el plugin se coloca la lógica de la wallet, la cual es un proyecto java. Cuando querramos exportar nuestra wallet a otra plataforma sólo deberemos reescribir el módulo dependiente del sistema operativo, mientras que la lógica que se escribió en java (lo que está en DMP/plugin) no requerirá reescribirse. +
 
-NOTE: En DMP/plugin hay que crear la capa reference_niche_wallet_type y separar la reference bitcoin wallet allí o crear una para las niche_Wallet_type que no son reference.
+NOTE: En DMP/plugin hay que crear la capa reference_niche_wallet_type y separar la Reference Bitcoin Wallet allí o crear una para las niche_Wallet_type que no son reference.
 
 En estos paquetes copiamos el código necesario de los proyectos de las reference wallets. +
 A continuación debemos definir la estructura de navegación y recursos que tendrá la wallet que construiremos para poder conectarla y correrla en la plataforma. 
@@ -89,22 +90,26 @@ Procedemos entonces a abrir el Wallet Factory. +
 
 === Wallet Factory
 
-Como mencionamos antes, el wallet factory permite editar la estructura de navegación de una wallet y sus recursos. Esta información, junto con la relación que enlaza la estructura de navegación con los fragmentos programados de back-end se persiste en disco en un formato que llamaremos Wallet Factory Project o WFP. +
+Como mencionamos antes, el wallet factory permite editar la estructura de navegación de una wallet y sus recursos. Esta información, junto con la relación que enlaza la estructura de navegación con los fragmentos programados de front-end se persiste en disco en un formato que llamaremos Wallet Factory Project o WFP. +
 La Wallet Factory también deberá proveer la manera de permitir al desarrollador ejecutar concretamente lo que está editando (esta funcionalidad será similar a lo que hace el wallet runtime más la funcionalidad de proveer los recursos multimedia (entro otros) a la wallet). Para realizar estas labores requeriremos que entre otras cosas se pueda:
 
-* Importar el WFP de una wallet existente.
 * Crear un WFP vacío
+* Importar el WFP de una wallet existente.
 * Persistir el proyecto en disco.
 * Correr un proyecto. Para lo cual el back-end asociado deberá estar integrado en la plataforma en que se edita el proyecto.
 * La edición debe ser en modo gráfico, por lo que al agregar/eliminar/modificar un componente de la estructura de navegación debemos hacer que eso se refleje en una representación interna que luego podamos persistir.
 
-IMPORTANT: Pregunta técnica ¿Podemos incorporar el código nuevo a otro nodo sin tener que recompilar lo existente en todas las plataformas? 
+IMPORTANT: Pregunta técnica ¿Podemos incorporar el código nuevo a otro nodo sin tener que recompilar lo existente en todas las plataformas? [Respuesta NO. El código nuevo de los fragmentos van a una nueva versión del sistema. Luis]
 
 NOTE: Actualmente hay que hacer diversas modificaciones manuales para poder lograr integrar una nueva wallet y luego recompilar el proyecto. Hay que resolver cómo hacer estas configuraciones dinámicamente y automáticas a partir del wallet factory project.
 
 Con este proyecto, los recursos y el código podemos integrar la wallet para correrla. +
 
 Al terminar esta configuración estamos en condiciones de hacer correr la wallet desde el wallet factory para poder testear lo programado.
+
+[Eze, aca o cuando expliqués este módulo en detalle podés aclarar que el ambiente de ejecución del wallet factory "Wallet Factory Activity" heredará de la "Wallet Activity", en algun momento charlá de esto con Raul que esta reprogramando Android-core , Luis]
+
+[Eze, otra cosa que hay que considerar es que exista un network service Wallet Factory como DAPP para poder compartir un proyecto entre varios dispositivos, de manera de poder probar en varios. Adicional a esto, si uno prueba con un emulador, como se hace para que la configuración que uno hace corriendo en un dispositivo no se pierda cuando se quiera probar en otro. Quizas pudieramos usar un repositorio github de puente para guardar las cosas mientras tanto, en vez de grabarlas en el telefono, cosa de que nos evitamos de que la wallet factory sea una DAPP solo por esto y ademas resolvemos el tema de probar desde distintos emuladores. Mientras apuntemos a un repo github, el proyecto quedaría automaticamente compartido. Luis]
 
 === Wallet Publisher
 
