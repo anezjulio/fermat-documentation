@@ -13,6 +13,4 @@ Si lo que necesitamos ahora es un Network Service que provea estadísticas al re
 
 Y en un futuro todavía un poco mas lejano el módulo pudiera vender la infomación estadística de manera autonoma a quien se la solicite para consolidarla en algún sitio web o cosas así. Este sería uno de los mecanismo mediante el cual el usuario final en el futuro pudiera tener algun ingreso de dinero a cambio de la información que genera.
 
--Luis
-
-]
+-Luis]
