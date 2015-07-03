@@ -75,7 +75,7 @@ Wallet Manager:: La instalación la produce el Wallet Manager en el dispositivo 
 Analicemos los pasos para incorporar una wallet y extendamos las definiciones anteriores.
 
 Lo primero que debemos realizar es registrarnos como desarrolladores en el sub app Developers. +
-Aquí debemos ingresar entre otras cosas datos de contacto los cuales deberán ser verificados antes de permitirle a un desarrollador utilizar las funcionalidades de la plataforma que exijen este tipo de identificación. [Eze, que tipo de datos de contacto? Nuestra política es trabajar independiente de mecanismos estandares que dependen de elementos centralizados que pueden ser prohibidos u espiados, con lo cual no vamos a requerir emails, SMS, ni nada por el estilo. Luis] +
+Usaremos la plataforma misma para comunicarnos con el Desarrollador, evitando el uso de correosm SNSm etc.
 
 Supongamos que queremos crear una wallet a partir de la Bitcoin Reference Wallet. Procedemos entonces a hacer un fork del repositorio de fermat de bitDubai y lo clonamos en nuestra computadora. +
 Una vez clonado creamos un nuevo paquete en fermat/DMP/android/niche_wallet y otro en fermat/DMP/plugin/niche_wallet_type con nombres adecuados como por ejemplo: /home/eze/Escritorio/fermat/DMP/android/niche_wallet/fermat-dmp-android-niche-wallet-bitcoin-wallet-myDeveloperName y /home/eze/Escritorio/fermat/DMP/plugin/niche_wallet_type/fermat-dmp-plugin-niche-wallet-type-crypto-wallet-myDeveloperName. +
@@ -99,17 +99,13 @@ La Wallet Factory también deberá proveer la manera de permitir al desarrollado
 * Correr un proyecto. Para lo cual el back-end asociado deberá estar integrado en la plataforma en que se edita el proyecto.
 * La edición debe ser en modo gráfico, por lo que al agregar/eliminar/modificar un componente de la estructura de navegación debemos hacer que eso se refleje en una representación interna que luego podamos persistir.
 
-IMPORTANT: Pregunta técnica ¿Podemos incorporar el código nuevo a otro nodo sin tener que recompilar lo existente en todas las plataformas? [Respuesta NO. El código nuevo de los fragmentos van a una nueva versión del sistema. Luis]
+REMARK: No podemos incorporar el código nuevo sin lanzar una nueva versión del sistema (en android al menos). 
 
 NOTE: Actualmente hay que hacer diversas modificaciones manuales para poder lograr integrar una nueva wallet y luego recompilar el proyecto. Hay que resolver cómo hacer estas configuraciones dinámicamente y automáticas a partir del wallet factory project.
 
 Con este proyecto, los recursos y el código podemos integrar la wallet para correrla. +
 
 Al terminar esta configuración estamos en condiciones de hacer correr la wallet desde el wallet factory para poder testear lo programado.
-
-[Eze, aca o cuando expliqués este módulo en detalle podés aclarar que el ambiente de ejecución del wallet factory "Wallet Factory Activity" heredará de la "Wallet Activity", en algun momento charlá de esto con Raul que esta reprogramando Android-core , Luis]
-
-[Eze, otra cosa que hay que considerar es que exista un network service Wallet Factory como DAPP para poder compartir un proyecto entre varios dispositivos, de manera de poder probar en varios. Adicional a esto, si uno prueba con un emulador, como se hace para que la configuración que uno hace corriendo en un dispositivo no se pierda cuando se quiera probar en otro. Quizas pudieramos usar un repositorio github de puente para guardar las cosas mientras tanto, en vez de grabarlas en el telefono, cosa de que nos evitamos de que la wallet factory sea una DAPP solo por esto y ademas resolvemos el tema de probar desde distintos emuladores. Mientras apuntemos a un repo github, el proyecto quedaría automaticamente compartido. Luis]
 
 === Wallet Publisher
 
@@ -169,4 +165,15 @@ Para pensar (escrito por Luis):
 
 La instalación final la produce el Wallet Manager en el dispositivo del usuario que descarga la wallet. Este módulo es responsable de unir todas las partes para que la nueva wallet esté disponible para ser usada. +
 
-Los fragmentos ya están instalados em el dispositivo, de manera que lo que falta es la WFP de la wallet. Para esto el Wallet Manager los obtiene a través del Network Service Wallet Resources. Del WFP se extrae la estructura de navegación, el Wallet Manager le inyecta la estructura al Wallet Runtime para que esté disponible a la hora que el usuario navegue a la nueva wallet dentro de la aplicación. + 
+Los fragmentos ya están instalados em el dispositivo, de manera que lo que falta es la WFP de la wallet. Para esto el Wallet Manager los obtiene a través del Network Service Wallet Resources. Del WFP se extrae la estructura de navegación, el Wallet Manager le inyecta la estructura al Wallet Runtime para que esté disponible a la hora que el usuario navegue la nueva wallet dentro de la aplicación. El proceso de instalación consiste en algunos pasos más que discutiremos en detalle en la documentación del Wallet Manager junto con el resto de su funcionalidad. + 
+
+== Lista de Plug-ins y subApps a Crear/Editar
+
+* Wallet Community Network Service
+* Wallet Store DMP Network Service
+* Wallet Resources Network Service
+* Wallet Factory SubApp y Wallet Factory plugin en la capa Module
+* Actividad que ejecute las wallets pidiendo la estructura de navegación y recursos al Wallet Factory plugin de Module
+* Wallet Publisher SubApp y Wallet Publisher plugin en la capa Module
+* Wallet Store SubApp y Wallet Store plugin en la capa Module
+* Wallet Manager SubApp y Wallet Manager plugin en la capa Module|
