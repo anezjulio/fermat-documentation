@@ -169,7 +169,7 @@ Los fragmentos ya están instalados em el dispositivo, de manera que lo que falt
 
 == Lista de Plug-ins y subApps a Crear/Editar
 
-* Wallet Community Network Service
+* Wallet Statistics Network Service
 * Wallet Store DMP Network Service
 * Wallet Resources Network Service
 * Wallet Factory SubApp y Wallet Factory plugin en la capa Module

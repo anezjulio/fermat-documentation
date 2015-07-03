@@ -1,16 +1,8 @@
 = Wallet Community - Network Service Layer
 
-Este plug-in escucha el evento de la Wallet Store sub App que anuncia que una wallet se está instalando y envía información al wallet community del developer informando la actualización.
+Este plug-in no es parte de este milestone, pero se menciona por completitud
 
-Posiblemente se informen otros datos del usuario que instaló la wallet como por ejemplo la localización del mismo.
+Este network service intenta proveer un ambiente social a las wallets. Si uno como usuario quisiera interact8ar con otros usuarios de la plataforma que compartan en común usar la misma wallet entonces este network service es quien tiene la tarea de brindar la lista de usuarios que usan la wallet (quizás deba proveer otros datos u otros servicios, esto debe definirse)
+Debería permitir al usuario decidir si desea o no compartir esta información.
 
 
-[El network service con este nombre, tenía la finalidad original siguiente:
-
-Imaginate que vos sos usuario de la billetera de McDonald y quisieras interactuar con otros usuarios de exactamente la misma billetera. Para encontrar a los usuarios de la misma billetera se habia pensado el Wallet Comunity Network Service.
-
-Si lo que necesitamos ahora es un Network Service que provea estadísticas al resto de los nodos sobre las billeteras instaladas, quizas lo que debamos hacer es un network service que se llame WalletStatistics, que sea el que escuche los eventos, entre otros de instalacion y desisntalacion de las wallets. En un futuro cercano pudiera escuchar otros eventos y exponer otro tipo de estadísticas.
-
-Y en un futuro todavía un poco mas lejano el módulo pudiera vender la infomación estadística de manera autonoma a quien se la solicite para consolidarla en algún sitio web o cosas así. Este sería uno de los mecanismo mediante el cual el usuario final en el futuro pudiera tener algun ingreso de dinero a cambio de la información que genera.
-
--Luis]
