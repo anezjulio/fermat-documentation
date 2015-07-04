@@ -12,6 +12,8 @@ Como mencionamos antes, se podrían pensar en mecanismos que le impidan al desar
 
 == Wallet Publisger plugin - Module Layer
 
+== Wallet Publisger plugin - Middleware Layer
+
 Algunas de las funcionalidades específicas de este módulo serán:
 
 * Mandar a publicar un WFP al network service Wallet Resources. +

@@ -8,6 +8,8 @@ Esta subApp debe escuchar un evento lanzado por el Wallet Store  cuando el usuar
 
 == Wallet Manager - Module Layer
 
+== Wallet Manager - Middleware Layer
+
 Además de administrar la información que maneja el Wallet Manager, este componente es el responsable de instalar las wallets que el usuario selecciona desde la wallet store. +
 
 El wallet store le pasa como datos la identificación de la wallet y del desarrollador de la misma. +

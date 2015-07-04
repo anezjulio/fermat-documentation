@@ -18,6 +18,8 @@ Para correr la wallet, esta subApp deberá hacer algo similar a lo que actualmen
 
 == Wallet Factory plugin - Module Layer
 
+== Wallet Factory plugin - Middleware Layer
+
 Este plugin es quien debe proveerle a la subApp los métodos necesarios para que pueda llevar a cabo las funcionalidades que no dependen de android. +
 Podemos listar entre estas:
 
