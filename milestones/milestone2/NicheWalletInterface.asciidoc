@@ -6,5 +6,5 @@ Dentro de esta información se encuentra:
 
 * Hash de los recursos
 * Hash de la estructura de navegación
-* Version Numer
+* Version Number
 * Tipo (para que el wallet manager sepa a qué wallet manager acudir para )
